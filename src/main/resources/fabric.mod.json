@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "persistentgamemodeswitcher",
+  "version": "${version}",
+  "name": "PersistentGamemodeSwitcher",
+  "description": "Allows to open game mode switcher even if you have no permission to do that",
+  "authors": [
+    "MagicSweet"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/PersistentGamemodeSwitcher/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient"
+    ],
+    "main": [
+      "com.magicsweet.fabric.persistentgamemodeswitcher.PersistentGamemodeSwitcher"
+    ]
+  },
+  "mixins": [
+    "PersistentGamemodeSwitcher.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
