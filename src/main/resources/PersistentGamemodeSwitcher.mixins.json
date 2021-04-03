@@ -4,6 +4,7 @@
   "package": "com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin",
   "compatibilityLevel": "JAVA_11",
   "mixins": [
+    "GameModeSelectionScreenMixin",
     "KeyboardMixinGameModeSwitch"
   ],
   "client": [
