@@ -31,7 +31,7 @@ public abstract class GameModeSelectionScreenMixin {
 	private boolean checkForClose() {
 		if (!checkButtons()) {
 			this.apply();
-			MinecraftClient.getInstance().openScreen(null);
+			MinecraftClient.getInstance().setScreen(null);
 			return true;
 		} else {
 			return false;
