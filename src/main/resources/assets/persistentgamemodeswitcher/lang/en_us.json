@@ -1,4 +1,5 @@
 {
   "key.persistentgamemodeswitcher.activate": "Open Game mode Switcher",
-  "key.category.persistentgamemodeswitcher.activate": "PersistentGamemodeSwitcher"
+  "key.category.persistentgamemodeswitcher.activate": "PersistentGamemodeSwitcher",
+  "key.persistentgamemodeswitcher.activate.cycle": "Cycle Spectator <-> Previous gamemode"
 }

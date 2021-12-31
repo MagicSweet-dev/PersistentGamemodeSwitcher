@@ -18,6 +18,11 @@ public class KeyboardMixinGameModeSwitch {
 				PersistentGamemodeSwitcherClient.openGamemodeSwitcher();
 			}
 			cir.setReturnValue(true);
+		} else if (key == 78) {
+			if (KeyboardHotkey.gmCycleKeybind.isDefault()) {
+				PersistentGamemodeSwitcherClient.cycleGamemodes();
+			}
+			cir.setReturnValue(true);
 		}
 	}
 }
