@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Keyboard.class)
 public class KeyboardMixinGameModeSwitch {
 	
-	@Inject(at = @At("HEAD"), method = "processF3(I)Z")
+	@Inject(at = @At("HEAD"), method = "processF3(I)Z", cancellable = true)
 	public void behaviour(int key, CallbackInfoReturnable<Boolean> cir) {
 		if (key == 293) {
 			if (KeyboardHotkey.gmSwitcherKeybind.isDefault()) {

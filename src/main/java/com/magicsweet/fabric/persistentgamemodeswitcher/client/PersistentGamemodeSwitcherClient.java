@@ -27,11 +27,11 @@ public class PersistentGamemodeSwitcherClient implements ClientModInitializer {
 		if (MinecraftClient.getInstance().interactionManager == null) return;
 		
 		if (!MinecraftClient.getInstance().player.isSpectator()) {
-			MinecraftClient.getInstance().player.sendChatMessage("/gamemode spectator");
+			MinecraftClient.getInstance().player.sendCommand("gamemode spectator");
 		} else {
 			ClientPlayerEntity entity = MinecraftClient.getInstance().player;
 			GameMode gamemode = MinecraftClient.getInstance().interactionManager.getPreviousGameMode();
-			entity.sendChatMessage("/gamemode " + MoreObjects.firstNonNull(gamemode, GameMode.CREATIVE).getName());
+			entity.sendCommand("gamemode " + MoreObjects.firstNonNull(gamemode, GameMode.CREATIVE).getName());
 		}
 		
 	}
