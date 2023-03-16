@@ -7,10 +7,11 @@ import net.minecraft.client.gui.screen.GameModeSelectionScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(GameModeSelectionScreen.class)
@@ -27,23 +28,19 @@ public abstract class GameModeSelectionScreenMixin {
 	 * @author MagicSweet
 	 * @reason Necessary custom behaviour
 	 */
-	@Overwrite
-	private boolean checkForClose() {
-		if (!checkButtons()) {
-			this.apply();
-			MinecraftClient.getInstance().setScreen(null);
-			return true;
-		} else {
-			return false;
+	@Inject(at = @At("HEAD"), method = "checkForClose", cancellable = true)
+	private void checkForClose(CallbackInfoReturnable<Boolean> cir) {
+		if (!KeyboardHotkey.gmSwitcherKeybind.isDefault()) {
+			if (!checkButtons()) {
+				this.apply();
+				MinecraftClient.getInstance().setScreen(null);
+				cir.setReturnValue(true);
+			} else cir.setReturnValue(false);
 		}
 	}
 	
 	private boolean checkButtons() {
-		if (KeyboardHotkey.gmSwitcherKeybind.isDefault()) {
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 292);
-		} else {
-			var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkey.gmSwitcherKeybind);
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), key.getCode());
-		}
+		var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkey.gmSwitcherKeybind);
+		return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), key.getCode());
 	}
 }

@@ -15,7 +15,7 @@ public class KeyboardHotkey {
 		gmSwitcherKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 			"key.persistentgamemodeswitcher.activate",
 			InputUtil.Type.KEYSYM,
-			GLFW.GLFW_KEY_UNKNOWN,
+			GLFW.GLFW_KEY_F4,
 			"key.category.persistentgamemodeswitcher.activate"
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {

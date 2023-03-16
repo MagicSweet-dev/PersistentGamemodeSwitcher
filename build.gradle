@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '1.0-SNAPSHOT'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -22,7 +22,10 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include 'fabric.mod.json'
-        expand 'version': project.version
+        expand(
+            'version': project.version,
+            'mc_version': project.minecraft_version
+        )
     }
 
     from(sourceSets.main.resources.srcDirs) {
