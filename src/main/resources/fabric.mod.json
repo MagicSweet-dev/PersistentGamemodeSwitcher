@@ -13,7 +13,7 @@
     "sources": "https://github.com/MagicSweet-dev/PersistentGamemodeSwitcher"
   },
   "license": "MIT",
-  "icon": "assets/PersistentGamemodeSwitcher/icon.png",
+  "icon": "assets/persistentgamemodeswitcher/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
