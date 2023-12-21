@@ -8,11 +8,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameModeSelectionScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.world.GameMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Environment(EnvType.CLIENT)
 public class PersistentGamemodeSwitcherClient implements ClientModInitializer {
-	
+	public static final Logger LOGGER = LoggerFactory.getLogger("persistentgamemodeswitchcer");
+
 	@Override
 	public void onInitializeClient() {
 		new KeyboardHotkey();

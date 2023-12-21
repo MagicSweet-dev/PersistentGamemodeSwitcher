@@ -3,11 +3,9 @@
   "minVersion": "0.8",
   "package": "com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin",
   "compatibilityLevel": "JAVA_11",
-  "mixins": [
+  "client": [
     "GameModeSelectionScreenMixin",
     "KeyboardMixinGameModeSwitch"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

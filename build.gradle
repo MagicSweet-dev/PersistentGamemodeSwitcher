@@ -2,12 +2,8 @@ plugins {
     id 'fabric-loom' version '1.4-SNAPSHOT'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+group project.maven_group
+version project.mod_version
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -38,4 +34,9 @@ processResources {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }

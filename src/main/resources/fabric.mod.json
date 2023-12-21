@@ -19,7 +19,7 @@
     "client": [
       "com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient"
     ],
-    "main": [
+    "server": [
       "com.magicsweet.fabric.persistentgamemodeswitcher.PersistentGamemodeSwitcher"
     ]
   },
@@ -29,6 +29,6 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "${mc_version}"
+    "minecraft": ">=${mc_version}"
   }
 }
