@@ -4,10 +4,10 @@ import com.google.common.base.MoreObjects;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.GameModeSelectionScreen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.world.GameMode;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.level.GameType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,22 +20,22 @@ public class PersistentGamemodeSwitcherClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		new KeyboardHotkey();
 	}
-	
+
 	public static void openGamemodeSwitcher() {
-		MinecraftClient.getInstance().setScreen(new GameModeSelectionScreen());
+		Minecraft.getInstance().setScreen(new GameModeSwitcherScreen());
 	}
-	
+
 	public static void cycleGamemodes() {
-		if (MinecraftClient.getInstance().player == null) return;
-		if (MinecraftClient.getInstance().interactionManager == null) return;
-		
-		if (!MinecraftClient.getInstance().player.isSpectator()) {
-			MinecraftClient.getInstance().player.networkHandler.sendCommand("gamemode spectator");
+		if (Minecraft.getInstance().player == null) return;
+		if (Minecraft.getInstance().gameMode == null) return;
+
+		if (!Minecraft.getInstance().player.isSpectator()) {
+			Minecraft.getInstance().player.connection.sendUnsignedCommand("gamemode spectator");
 		} else {
-			ClientPlayerEntity entity = MinecraftClient.getInstance().player;
-			GameMode gamemode = MinecraftClient.getInstance().interactionManager.getPreviousGameMode();
-			entity.networkHandler.sendCommand("gamemode " + MoreObjects.firstNonNull(gamemode, GameMode.CREATIVE).getName());
+			LocalPlayer entity = Minecraft.getInstance().player;
+			GameType gamemode = Minecraft.getInstance().gameMode.getPreviousPlayerMode();
+			entity.connection.sendUnsignedCommand("gamemode " + MoreObjects.firstNonNull(gamemode, GameType.CREATIVE).getName());
 		}
-		
+
 	}
 }
