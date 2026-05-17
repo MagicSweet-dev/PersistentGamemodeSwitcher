@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.GameType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +29,15 @@ public class PersistentGamemodeSwitcherClient implements ClientModInitializer {
 		if (Minecraft.getInstance().gameMode == null) return;
 
 		if (!Minecraft.getInstance().player.isSpectator()) {
-			Minecraft.getInstance().player.connection.sendUnsignedCommand("gamemode spectator");
+			sendCommand("gamemode spectator");
 		} else {
-			LocalPlayer entity = Minecraft.getInstance().player;
 			GameType gamemode = Minecraft.getInstance().gameMode.getPreviousPlayerMode();
-			entity.connection.sendUnsignedCommand("gamemode " + MoreObjects.firstNonNull(gamemode, GameType.CREATIVE).getName());
+			sendCommand("gamemode " + MoreObjects.firstNonNull(gamemode, GameType.CREATIVE).getName());
 		}
 
+	}
+
+	public static void sendCommand(String command) {
+		Minecraft.getInstance().player.connection.sendCommand(command);
 	}
 }
