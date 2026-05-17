@@ -61,11 +61,11 @@ public abstract class GameModeSelectionScreenMixin {
 	 */
 	@Inject(at = @At("HEAD"), method = "keyReleased", cancellable = true)
 	private void checkForClose(final KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
-		if (event.key() == 292) {
-			cir.setReturnValue(true);
-			return;
-		}
 		if (!KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
+			if (event.key() == 292) {
+				cir.setReturnValue(true);
+				return;
+			}
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
 				Minecraft.getInstance().setScreen(null);
