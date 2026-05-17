@@ -1,6 +1,6 @@
 package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 
-import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkey;
+import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkeys;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.input.KeyEvent;
@@ -15,12 +15,12 @@ public class KeyboardMixinGameModeSwitch {
 	@Inject(at = @At("HEAD"), method = "handleDebugKeys(Lnet/minecraft/client/input/KeyEvent;)Z", cancellable = true)
 	public void behaviour(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
 		if (keyEvent.key() == 293) {
-			if (KeyboardHotkey.gmSwitcherKeybind.isDefault()) {
+			if (KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
 				PersistentGamemodeSwitcherClient.openGamemodeSwitcher();
 			}
 			cir.setReturnValue(true);
 		} else if (keyEvent.key() == 78) {
-			if (KeyboardHotkey.gmCycleKeybind.isDefault()) {
+			if (KeyboardHotkeys.gmCycleKeybind.isDefault()) {
 				PersistentGamemodeSwitcherClient.cycleGamemodes();
 			}
 			cir.setReturnValue(true);

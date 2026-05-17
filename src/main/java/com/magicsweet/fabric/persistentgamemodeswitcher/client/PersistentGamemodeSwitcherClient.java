@@ -7,17 +7,14 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.world.level.GameType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Environment(EnvType.CLIENT)
 public class PersistentGamemodeSwitcherClient implements ClientModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("persistentgamemodeswitchcer");
 
 	@Override
 	public void onInitializeClient() {
-		new KeyboardHotkey();
+		KeyboardHotkeys.initialize();
 	}
 
 	public static void openGamemodeSwitcher() {

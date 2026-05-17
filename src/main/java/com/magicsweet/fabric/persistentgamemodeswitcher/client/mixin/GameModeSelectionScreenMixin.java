@@ -1,15 +1,16 @@
 package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 
-import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkey;
+import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkeys;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundChangeGameModePacket;
+import net.minecraft.server.permissions.PermissionCheck;
+import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,10 +30,10 @@ public abstract class GameModeSelectionScreenMixin {
 		method = "switchToHoveredGameMode(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/screens/debug/GameModeSwitcherScreen$GameModeIcon;)V",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/player/LocalPlayer;hasPermissions(I)Z"
+			target = "Lnet/minecraft/server/permissions/PermissionCheck;check(Lnet/minecraft/server/permissions/PermissionSet;)Z"
 		)
 	)
-	private static boolean returnFakePermissionCheck(LocalPlayer clientPlayerEntity, int permissionLevel) {
+	private static boolean returnFakePermissionCheck(PermissionCheck instance, PermissionSet permissionSet) {
 		return true;
 	}
 
@@ -57,9 +58,9 @@ public abstract class GameModeSelectionScreenMixin {
 	 * @author MagicSweet
 	 * @reason Checking if custom button is pressed (or not), in such a case - close the menu.
 	 */
-	@Inject(at = @At("HEAD"), method = "checkToClose", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "keyReleased", cancellable = true)
 	private void checkForClose(CallbackInfoReturnable<Boolean> cir) {
-		if (!KeyboardHotkey.gmSwitcherKeybind.isDefault()) {
+		if (!KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
 				Minecraft.getInstance().setScreen(null);
@@ -70,7 +71,7 @@ public abstract class GameModeSelectionScreenMixin {
 
 	@Unique
     private boolean checkButtons() {
-		var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkey.gmSwitcherKeybind);
+		var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkeys.gmSwitcherKeybind);
 		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), key.getValue());
 	}
 }

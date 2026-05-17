@@ -4,16 +4,16 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyboardHotkey {
+public class KeyboardHotkeys {
 	public static final KeyMapping gmSwitcherKeybind;
 	public static final KeyMapping gmCycleKeybind;
 	public static final KeyMapping.Category category;
 
 	static {
-		category = KeyMapping.Category.register(ResourceLocation.parse("persistentgamemodeswitcher:activate"));
+		category = KeyMapping.Category.register(Identifier.parse("persistentgamemodeswitcher:activate"));
 		gmSwitcherKeybind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
 			"key.persistentgamemodeswitcher.activate",
 			InputConstants.Type.KEYSYM,
@@ -39,4 +39,7 @@ public class KeyboardHotkey {
 		});
 	}
 
+	public static void initialize() {
+		// dummy method so properties initialize
+	}
 }
