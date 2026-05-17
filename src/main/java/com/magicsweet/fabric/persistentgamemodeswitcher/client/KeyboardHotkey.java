@@ -4,19 +4,21 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyboardHotkey {
 	public static final KeyMapping gmSwitcherKeybind;
 	public static final KeyMapping gmCycleKeybind;
-
+	public static final KeyMapping.Category category;
 
 	static {
+		category = KeyMapping.Category.register(ResourceLocation.parse("persistentgamemodeswitcher:activate"));
 		gmSwitcherKeybind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
 			"key.persistentgamemodeswitcher.activate",
 			InputConstants.Type.KEYSYM,
 			GLFW.GLFW_KEY_F4,
-			"key.category.persistentgamemodeswitcher.activate"
+			category
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (gmSwitcherKeybind.consumeClick()) {
@@ -28,7 +30,7 @@ public class KeyboardHotkey {
 			"key.persistentgamemodeswitcher.activate.cycle",
 			InputConstants.Type.KEYSYM,
 			GLFW.GLFW_KEY_UNKNOWN,
-			"key.category.persistentgamemodeswitcher.activate"
+			category
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (gmCycleKeybind.consumeClick()) {

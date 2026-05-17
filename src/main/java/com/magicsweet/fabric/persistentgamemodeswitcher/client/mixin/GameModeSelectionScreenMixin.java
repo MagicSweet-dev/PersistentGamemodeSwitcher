@@ -1,7 +1,5 @@
 package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.magicsweet.fabric.persistentgamemodeswitcher.PersistentGamemodeSwitcher;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkey;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -73,6 +71,6 @@ public abstract class GameModeSelectionScreenMixin {
 	@Unique
     private boolean checkButtons() {
 		var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkey.gmSwitcherKeybind);
-		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key.getValue());
+		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), key.getValue());
 	}
 }
