@@ -1,4 +1,5 @@
 {
   "key.persistentgamemodeswitcher.activate": "Открыть меню смены игрового режима",
-  "key.category.persistentgamemodeswitcher.activate": "PersistentGamemodeSwitcher"
+  "key.category.persistentgamemodeswitcher.activate": "PersistentGamemodeSwitcher",
+  "key.persistentgamemodeswitcher.activate.cycle": "Переключиться между режимом наблюдателя <-> предыдущим"
 }
