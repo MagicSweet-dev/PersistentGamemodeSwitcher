@@ -3,9 +3,10 @@ package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkeys;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
 import com.mojang.blaze3d.platform.InputConstants;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundChangeGameModePacket;
@@ -59,7 +60,11 @@ public abstract class GameModeSelectionScreenMixin {
 	 * @reason Checking if custom button is pressed (or not), in such a case - close the menu.
 	 */
 	@Inject(at = @At("HEAD"), method = "keyReleased", cancellable = true)
-	private void checkForClose(CallbackInfoReturnable<Boolean> cir) {
+	private void checkForClose(final KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+		if (event.key() == 292) {
+			cir.setReturnValue(true);
+			return;
+		}
 		if (!KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
@@ -71,7 +76,7 @@ public abstract class GameModeSelectionScreenMixin {
 
 	@Unique
     private boolean checkButtons() {
-		var key = KeyBindingHelper.getBoundKeyOf(KeyboardHotkeys.gmSwitcherKeybind);
+		var key = KeyMappingHelper.getBoundKeyOf(KeyboardHotkeys.gmSwitcherKeybind);
 		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), key.getValue());
 	}
 }
