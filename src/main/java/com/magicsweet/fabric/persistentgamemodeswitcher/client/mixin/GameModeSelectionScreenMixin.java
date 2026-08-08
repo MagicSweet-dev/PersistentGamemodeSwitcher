@@ -68,7 +68,7 @@ public abstract class GameModeSelectionScreenMixin {
 			}
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
-				Minecraft.getInstance().setScreen(null);
+				Minecraft.getInstance().gui.setScreen(null);
 				cir.setReturnValue(true);
 			} else cir.setReturnValue(false);
 		}
