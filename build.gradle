@@ -11,6 +11,10 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 
+tasks.jar {
+    archiveClassifier.set("fabric")
+}
+
 processResources {
     inputs.property 'version', project.version
 
