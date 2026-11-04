@@ -77,6 +77,6 @@ public abstract class GameModeSelectionScreenMixin {
 	@Unique
     private boolean checkButtons() {
 		var key = KeyMappingHelper.getBoundKeyOf(KeyboardHotkeys.gmSwitcherKeybind);
-		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), key.getValue());
+		return InputConstants.isKeyDown(key.getValue());
 	}
 }
