@@ -2,9 +2,6 @@ package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkeys;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
-import com.mojang.blaze3d.platform.InputConstants;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -68,7 +65,7 @@ public abstract class GameModeSelectionScreenMixin {
 			}
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
-				Minecraft.getInstance().gui.setScreen(null);
+				PersistentGamemodeSwitcherClient.setScreen(null);
 				cir.setReturnValue(true);
 			} else cir.setReturnValue(false);
 		}
@@ -76,7 +73,6 @@ public abstract class GameModeSelectionScreenMixin {
 
 	@Unique
     private boolean checkButtons() {
-		var key = KeyMappingHelper.getBoundKeyOf(KeyboardHotkeys.gmSwitcherKeybind);
-		return InputConstants.isKeyDown(key.getValue());
+		return KeyboardHotkeys.isDown(KeyboardHotkeys.gmSwitcherKeybind);
 	}
 }

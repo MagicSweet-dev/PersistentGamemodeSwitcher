@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyboardHandler.class)
 public class KeyboardMixinGameModeSwitch {
 
-	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/client/KeyboardHandler;handleDebugKeys(Lnet/minecraft/client/input/KeyEvent;)Z", cancellable = true)
-	public void behaviour(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
-		if (Minecraft.getInstance().options.keyDebugSwitchGameMode.matches(keyEvent)) {
+	@Inject(at = @At("HEAD"), method = "handleDebugKeys(Lnet/minecraft/client/input/KeyEvent;)Z", cancellable = true)
+	public void behaviour(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+		if (Minecraft.getInstance().options.keyDebugSwitchGameMode.matches(event)) {
 			if (KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
 				PersistentGamemodeSwitcherClient.openGamemodeSwitcher();
 			}
 			cir.setReturnValue(true);
-		} else if (keyEvent.key() == 78) {
+		} else if (event.key() == 78) {
 			if (KeyboardHotkeys.gmCycleKeybind.isDefault()) {
 				PersistentGamemodeSwitcherClient.cycleGamemodes();
 			}

@@ -2,7 +2,7 @@ name: Tag and release
 
 on:
   push:
-    branches: [ main, feat/* ]
+    branches: [ main, feature/* ]
 
 
 permissions:
@@ -73,4 +73,6 @@ jobs:
           tag: ${{ needs.tag.outputs.tag }}
           allowUpdates: true
           replacesArtifacts: true
-          artifacts: "build/libs/*-fabric.jar"
+          prerelease: ${{ github.ref_name != 'main' }}
+          makeLatest: ${{ github.ref_name == 'main' }}
+          artifacts: "build/versions/*/build/libs/*.jar"
