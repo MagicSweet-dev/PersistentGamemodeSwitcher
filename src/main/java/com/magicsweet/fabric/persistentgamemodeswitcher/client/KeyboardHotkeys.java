@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 public class KeyboardHotkeys {
 	public static final KeyMapping gmSwitcherKeybind;
@@ -16,8 +15,8 @@ public class KeyboardHotkeys {
 		category = KeyMapping.Category.register(Identifier.parse("persistentgamemodeswitcher:activate"));
 		gmSwitcherKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 			"key.persistentgamemodeswitcher.activate",
-			InputConstants.Type.KEYSYM,
-			GLFW.GLFW_KEY_F4,
+			InputConstants.Type.KEYBOARD,
+			InputConstants.KEY_F4,
 			category
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -28,8 +27,8 @@ public class KeyboardHotkeys {
 
 		gmCycleKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 			"key.persistentgamemodeswitcher.activate.cycle",
-			InputConstants.Type.KEYSYM,
-			GLFW.GLFW_KEY_UNKNOWN,
+			InputConstants.Type.KEYBOARD,
+			InputConstants.UNKNOWN.getValue(),
 			category
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
