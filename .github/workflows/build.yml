@@ -75,4 +75,4 @@ jobs:
           replacesArtifacts: true
           prerelease: ${{ github.ref_name != 'main' }}
           makeLatest: ${{ github.ref_name == 'main' }}
-          artifacts: "build/versions/*/build/libs/*.jar"
+          artifacts: "versions/**/build/libs/*.jar"
