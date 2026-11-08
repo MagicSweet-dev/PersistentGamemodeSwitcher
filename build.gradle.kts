@@ -20,6 +20,8 @@ val maxMinecraftVersion = property("minecraft_version_max") as String
 val loaderVersion = property("loader_version") as String
 val fabricApiVersion = property("fabric_api_version") as String
 
+val productionRuntimeMods by configurations.creating
+
 dependencies {
     val mod = if (withObfuscation) "modImplementation" else "implementation"
 
@@ -32,6 +34,8 @@ dependencies {
     }
 
     testImplementation("net.fabricmc:fabric-loader-junit:${loaderVersion}")
+
+    productionRuntimeMods("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
 }
 
 tasks.test {
@@ -49,13 +53,11 @@ project.extensions.getByType<FabricApiExtension>().apply {
     }
 }
 
-tasks.withType<ClientProductionRunTask>().configureEach {
+tasks.register<ClientProductionRunTask>("clientGameTests") {
     rootProject.subprojects.forEach { p ->
         mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
     }
-}
-
-tasks.register<ClientProductionRunTask>("clientGameTests") {
+    mods.from("productionRuntimeMods")
     jvmArgs.add("-Dfabric.client.gametest")
     useXVFB = true
 }
