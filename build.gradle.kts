@@ -29,7 +29,13 @@ dependencies {
     }
 }
 
-base.archivesName = "persistentgamemodeswitcher-mc${minecraftVersion}-${maxMinecraftVersion}"
+var versionSuffix =
+    if (
+        minecraftVersion == maxMinecraftVersion
+        || "${minecraftVersion}.x" == maxMinecraftVersion
+    ) maxMinecraftVersion
+    else "${minecraftVersion}-${maxMinecraftVersion}"
+base.archivesName = "persistentgamemodeswitcher-mc$versionSuffix"
 
 tasks.processResources {
     inputs.property("version", project.version)
