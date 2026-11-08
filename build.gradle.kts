@@ -1,5 +1,6 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import net.fabricmc.loom.api.fabricapi.FabricApiExtension
+import net.fabricmc.loom.task.prod.ClientProductionRunTask
 
 plugins {
     id("java")
@@ -43,6 +44,11 @@ tasks.test {
 
 project.extensions.getByType<FabricApiExtension>().apply {
     configureTests()
+}
+
+tasks.register<ClientProductionRunTask>("clientGameTests") {
+    jvmArgs.add("-Dfabric.client.gametest")
+    useXVFB = true
 }
 
 var versionSuffix =
