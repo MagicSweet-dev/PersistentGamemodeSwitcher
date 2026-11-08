@@ -1,6 +1,8 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import net.fabricmc.loom.api.fabricapi.FabricApiExtension
 
 plugins {
+    id("java")
     id("net.fabricmc.fabric-loom-remap") apply false
     id("net.fabricmc.fabric-loom") apply false
 }
@@ -27,6 +29,20 @@ dependencies {
     if (withObfuscation) {
         "mappings"(project.extensions.getByType<LoomGradleExtensionAPI>().officialMojangMappings())
     }
+
+    testImplementation("net.fabricmc:fabric-loader-junit:${loaderVersion}")
+}
+
+tasks.test {
+    useJUnitPlatform()
+
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+project.extensions.getByType<FabricApiExtension>().apply {
+    configureTests()
 }
 
 var versionSuffix =
@@ -48,7 +64,7 @@ tasks.processResources {
         expand(
             "version" to project.version,
             "mc_version" to minecraftVersion,
-            "mc_version_max" to maxMinecraftVersion,
+            "mc_version_max" to if (maxMinecraftVersion.contains(".x")) "=${maxMinecraftVersion}" else "<=${maxMinecraftVersion}",
             "fabric_api_version" to fabricApiVersion,
         )
     }
@@ -66,6 +82,13 @@ tasks.withType<JavaCompile>().configureEach {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
+        languageVersion.set(JavaLanguageVersion.of(
+            if (sc.current.parsed >= "26.1") 25
+            else if (sc.current.parsed >= "1.20.5") 21
+            else if (sc.current.parsed >= "1.18") 17
+            else if (sc.current.parsed >= "1.17") 16
+            // FIXME Java 8 support for Minecraft 1.16.x (and don't forget mixins.json)
+            else 11
+        ))
     }
 }

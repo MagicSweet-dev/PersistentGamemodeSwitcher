@@ -1,0 +1,2 @@
+mod add mod fabric-api fabric 26.3
+mod add mod modmenu fabric 26.3

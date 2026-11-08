@@ -27,10 +27,10 @@ public class KeyboardHotkeys {
 		var registered = register(
 			"persistentgamemodeswitcher:activate",
 			Map.of(
-				Map.entry("key.persistentgamemodeswitcher.activate.cycle", InputConstants.KEY_F4), _ -> {
+				Map.entry("key.persistentgamemodeswitcher.activate", InputConstants.KEY_F4), unused -> {
 					PersistentGamemodeSwitcherClient.openGamemodeSwitcher();
 				},
-				Map.entry("key.persistentgamemodeswitcher.activate.cycle", InputConstants.UNKNOWN.getValue()), _ -> {
+				Map.entry("key.persistentgamemodeswitcher.activate.cycle", InputConstants.UNKNOWN.getValue()), unused -> {
 					PersistentGamemodeSwitcherClient.cycleGamemodes();
 				}
 			)

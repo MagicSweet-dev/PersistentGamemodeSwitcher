@@ -2,7 +2,7 @@ name: Tag and release
 
 on:
   push:
-    branches: [ main, feature/* ]
+    branches: [main, feature/*, fix/*]
 
 
 permissions:
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.version.outputs.tag }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
 
     steps:
       - uses: actions/checkout@v4
@@ -37,8 +38,9 @@ jobs:
           
           branch="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
           
-          if [[ "$branch" == feature/* ]]; then
-            name="${branch#feature/}"
+          if [[ "$branch" != "main" ]]; then
+            # Strip the prefix (feature/, fix/, etc.) if there is one
+            name="${branch#*/}"
             sanitized="$(
               printf '%s' "$name" \
                 | tr '[:upper:]' '[:lower:]' \
@@ -46,9 +48,13 @@ jobs:
             )"
             test -n "$sanitized"
             version="${version}-pre-${sanitized}"
+            prerelease=true
+          else
+            prerelease=false
           fi
           
           echo "tag=$version" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
 
       - name: Replace tag
         env:
@@ -86,6 +92,6 @@ jobs:
           tag: ${{ needs.tag.outputs.tag }}
           allowUpdates: true
           replacesArtifacts: true
-          prerelease: ${{ github.ref_name != 'main' }}
-          makeLatest: ${{ github.ref_name == 'main' }}
+          prerelease: ${{ needs.tag.outputs.prerelease }}
+          makeLatest: ${{ needs.tag.outputs.prerelease != 'true' }}
           artifacts: "versions/**/build/libs/*.jar"
