@@ -52,7 +52,7 @@ tasks.register<ClientProductionRunTask>("runHeadlessClientGameTest") {
         mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
     }
     mods.from(
-        tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
+        //tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
         "productionRuntimeMods"
     )
     jvmArgs.add("-Dfabric.client.gametest")
