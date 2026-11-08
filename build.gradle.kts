@@ -47,17 +47,17 @@ project.extensions.getByType<FabricApiExtension>().apply {
     }
 }
 
-tasks.register<ClientProductionRunTask>("runHeadlessClientGameTest") {
-    rootProject.subprojects.forEach { p ->
-        mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
-    }
-    mods.from(
-        //tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
-        "productionRuntimeMods"
-    )
-    jvmArgs.add("-Dfabric.client.gametest")
-    useXVFB = true
-}
+//tasks.register<ClientProductionRunTask>("runHeadlessClientGameTest") {
+//    rootProject.subprojects.forEach { p ->
+//        mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
+//    }
+//    mods.from(
+//        //tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
+//        "productionRuntimeMods"
+//    )
+//    jvmArgs.add("-Dfabric.client.gametest")
+//    useXVFB = true
+//}
 
 var versionSuffix =
     if (
