@@ -10,9 +10,10 @@ if (withObfuscation) plugins.apply("net.fabricmc.fabric-loom-remap")
 else plugins.apply("net.fabricmc.fabric-loom")
 
 group = property("maven_group") as String
-version = property("mod_version") as String
+version = "v${property("mod_version")}"
 
 val minecraftVersion = property("minecraft_version") as String
+val maxMinecraftVersion = property("minecraft_version_max") as String
 val loaderVersion = property("loader_version") as String
 val fabricApiVersion = property("fabric_api_version") as String
 
@@ -28,15 +29,12 @@ dependencies {
     }
 }
 
-base.archivesName = "persistentgamemodeswitcher-${sc.current.version}"
-
-tasks.jar {
-    archiveClassifier.set("fabric")
-}
+base.archivesName = "persistentgamemodeswitcher-mc${minecraftVersion}-${maxMinecraftVersion}"
 
 tasks.processResources {
     inputs.property("version", project.version)
     inputs.property("mc_version", minecraftVersion)
+    inputs.property("mc_version_max", maxMinecraftVersion)
     inputs.property("fabric_api_version", fabricApiVersion)
 
     from(sourceSets.main.get().resources.srcDirs) {
@@ -44,6 +42,7 @@ tasks.processResources {
         expand(
             "version" to project.version,
             "mc_version" to minecraftVersion,
+            "mc_version_max" to maxMinecraftVersion,
             "fabric_api_version" to fabricApiVersion,
         )
     }

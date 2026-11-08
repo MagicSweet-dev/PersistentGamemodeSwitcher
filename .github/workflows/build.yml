@@ -26,15 +26,28 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
+          
           version="$(
             yq --input-format=properties \
               -r '.mod_version' gradle.properties
           )"
-
+          
           test -n "$version"
           test "$version" != "null"
-
+          
+          branch="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          
+          if [[ "$branch" == feature/* ]]; then
+            name="${branch#feature/}"
+            sanitized="$(
+              printf '%s' "$name" \
+                | tr '[:upper:]' '[:lower:]' \
+                | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g'
+            )"
+            test -n "$sanitized"
+            version="${version}-pre-${sanitized}"
+          fi
+          
           echo "tag=$version" >> "$GITHUB_OUTPUT"
 
       - name: Replace tag

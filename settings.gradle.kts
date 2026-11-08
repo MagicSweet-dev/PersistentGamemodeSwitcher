@@ -22,6 +22,13 @@ plugins {
 
 stonecutter {
     create(rootProject) {
-        versions(file("versions.txt").readLines())
+        versions(
+            "26.3",
+            "26.2",
+            "26.1",
+            "1.21.11",
+            "1.21.9",
+            "1.21.6"
+        )
     }
 }

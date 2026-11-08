@@ -4,12 +4,15 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+//? if > 1.21.6 {
+import com.magicsweet.fabric.persistentgamemodeswitcher.util.IdentifierUtil;
+//?}
 
 //? if <= 1.21.11 {
 /*import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -37,8 +40,16 @@ public class KeyboardHotkeys {
 		gmCycleKeybind = registered.get(1);
 	}
 
-	private static List<KeyMapping> register(String categoryIdentifier, Map<Map.Entry<String, Integer>, Consumer<Minecraft>> keys) {
-		var category = KeyMapping.Category.register(Identifier.parse(categoryIdentifier));
+	private static List<KeyMapping> register(
+		@SuppressWarnings("SameParameterValue") String categoryIdentifier,
+		Map<Map.Entry<String, Integer>, Consumer<Minecraft>> keys
+	) {
+		//? if <= 1.21.6 {
+		/*@SuppressWarnings("UnnecessaryLocalVariable")
+		var category = categoryIdentifier;
+		*///?} else {
+		var category = KeyMapping.Category.register(IdentifierUtil.parseIdentifier(categoryIdentifier));
+		//?}
 		var list = new ArrayList<KeyMapping>();
 		for (var key : keys.entrySet()) {
 			var keyMapping =
@@ -76,9 +87,11 @@ public class KeyboardHotkeys {
 		getBoundKeyOf(keyMapping);
 		return InputConstants.isKeyDown(
 			//? if <= 26.2 {
-			/*Minecraft.getInstance().getWindow(),
+			/*Minecraft.getInstance().getWindow()
+			//? if <= 1.21.6
+			//.getWindow()
 			*///?}
-			key.getValue()
+			, key.getValue()
 		);
 	}
 
