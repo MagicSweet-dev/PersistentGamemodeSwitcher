@@ -53,7 +53,7 @@ stonecutter {
             else "Minecraft.getInstance().gui.setScreen(\$1);"
         this["gui_get_window"] =
             if (current.parsed >= "1.21.11") "event.key() == 292"
-            else if (current.parsed >= "1.21.6") "InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 292)"
+            else if (current.parsed <= "1.21.6") "InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292)"
             else "InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 292)"
 
     }
