@@ -91,15 +91,10 @@ public abstract class GameModeSelectionScreenMixin {
 		CallbackInfoReturnable<Boolean> cir
 	) {
 		if (!KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
-			//? if >= 1.21.11 {
-			if (event.key() == 292) {
-			//?} else {
-			/*if (InputConstants.isKeyDown(
-				Minecraft.getInstance().getWindow()
-				//? if <= 1.21.6
-				//.getWindow()
-				, 292)) {
-			*///?}
+			if (
+				//$ gui_get_window
+				event.key() == 292
+			) {
 				cir.setReturnValue(true);
 				return;
 			}

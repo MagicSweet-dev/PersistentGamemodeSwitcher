@@ -49,8 +49,13 @@ project.extensions.getByType<FabricApiExtension>().apply {
 stonecutter {
     swaps {
         this["gui_set_screen"] =
-            if (current.version <= "26.1") "Minecraft.getInstance().setScreen(\$1);"
+            if (current.parsed <= "26.1") "Minecraft.getInstance().setScreen(\$1);"
             else "Minecraft.getInstance().gui.setScreen(\$1);"
+        this["gui_get_window"] =
+            if (current.parsed >= "1.21.11") "event.key() == 292"
+            else if (current.parsed >= "1.21.6") "InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 292)"
+            else "InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 292)"
+
     }
 
     replacements {
