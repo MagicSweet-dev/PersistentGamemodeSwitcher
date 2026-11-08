@@ -64,6 +64,25 @@ jobs:
           git tag --force "$TAG" "$GITHUB_SHA"
           git push origin --force "refs/tags/$TAG"
 
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: temurin
+          cache: gradle
+
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Run client GameTests
+        run: ./gradlew runClientGameTest
+
   build:
     needs: tag
     runs-on: ubuntu-latest
