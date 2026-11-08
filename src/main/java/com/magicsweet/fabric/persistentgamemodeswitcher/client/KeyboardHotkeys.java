@@ -89,9 +89,9 @@ public class KeyboardHotkeys {
 			//? if <= 26.2 {
 			/*Minecraft.getInstance().getWindow()
 			//? if <= 1.21.6
-			//.getWindow()
+			//.getWindow(),
 			*///?}
-			, key.getValue()
+			key.getValue()
 		);
 	}
 
