@@ -21,8 +21,8 @@ import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.client.input.KeyEvent;
 //?} else {
 /*import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.Minecraft;
 *///?}
+import net.minecraft.client.Minecraft;
 
 @Mixin(GameModeSwitcherScreen.class)
 public abstract class GameModeSelectionScreenMixin {
@@ -101,7 +101,8 @@ public abstract class GameModeSelectionScreenMixin {
 			}
 			if (!checkButtons()) {
 				this.switchToHoveredGameMode();
-				PersistentGamemodeSwitcherClient.setScreen(null);
+				//$ gui_set_screen null
+				Minecraft.getInstance().gui.setScreen(null);
 				cir.setReturnValue(true);
 			} else cir.setReturnValue(false);
 		}

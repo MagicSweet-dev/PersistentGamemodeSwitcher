@@ -6,7 +6,7 @@
   "environment": "client",
   "entrypoints": {
     "fabric-client-gametest": [
-
+      "com.magicsweet.fabric.persistentgamemodeswitcher.gametest.SampleTest"
     ]
   }
 }

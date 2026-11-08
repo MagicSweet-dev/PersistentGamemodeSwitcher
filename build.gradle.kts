@@ -1,6 +1,5 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import net.fabricmc.loom.api.fabricapi.FabricApiExtension
-import net.fabricmc.loom.task.prod.ClientProductionRunTask
 
 plugins {
     id("java")
@@ -47,17 +46,41 @@ project.extensions.getByType<FabricApiExtension>().apply {
     }
 }
 
-//tasks.register<ClientProductionRunTask>("runHeadlessClientGameTest") {
-//    rootProject.subprojects.forEach { p ->
-//        mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
-//    }
-//    mods.from(
-//        //tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
-//        "productionRuntimeMods"
-//    )
-//    jvmArgs.add("-Dfabric.client.gametest")
-//    useXVFB = true
-//}
+stonecutter {
+    swaps {
+        this["gui_set_screen"] =
+            if (current.version <= "26.1") "Minecraft.getInstance().setScreen(\$1);"
+            else "Minecraft.getInstance().gui.setScreen(\$1);"
+    }
+
+    replacements {
+        string(current.parsed >= "1.21.11") {
+            replace("ResourceLocation", "Identifier")
+        }
+
+        string(current.parsed <= "1.21.11") {
+            replace(
+                "net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper",
+                "net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper"
+            )
+            replace(
+                "KeyMappingHelper",
+                "KeyBindingHelper"
+            )
+            replace(
+                ".registerKeyMapping",
+                ".registerKeyBinding"
+            )
+        }
+
+        string(current.parsed <= "26.2") {
+            replace(
+                "InputConstants.Type.KEYBOARD",
+                "InputConstants.Type.KEYSYM"
+            )
+        }
+    }
+}
 
 var versionSuffix =
     if (

@@ -10,14 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-//? if > 1.21.6 {
-import com.magicsweet.fabric.persistentgamemodeswitcher.util.IdentifierUtil;
-//?}
-
-//? if <= 1.21.11 {
-/*import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-*///?} else
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.resources.Identifier;
 
 public class KeyboardHotkeys {
 	public static final KeyMapping gmSwitcherKeybind;
@@ -48,23 +42,13 @@ public class KeyboardHotkeys {
 		/*@SuppressWarnings("UnnecessaryLocalVariable")
 		var category = categoryIdentifier;
 		*///?} else {
-		var category = KeyMapping.Category.register(IdentifierUtil.parseIdentifier(categoryIdentifier));
+		var category = KeyMapping.Category.register(Identifier.parse(categoryIdentifier));
 		//?}
 		var list = new ArrayList<KeyMapping>();
 		for (var key : keys.entrySet()) {
-			var keyMapping =
-				//? if <= 1.21.11 {
-				/*KeyBindingHelper.registerKeyBinding
-				*///? } else
-				 KeyMappingHelper.registerKeyMapping
-					(new KeyMapping(
+			var keyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 				key.getKey().getKey(),
-				//? if >= 26.3 {
 				InputConstants.Type.KEYBOARD,
-				//?}
-				//? if <= 26.2 {
-				 /*InputConstants.Type.KEYSYM,
-				*///?}
 				key.getKey().getValue(),
 				category
 			));
@@ -79,12 +63,7 @@ public class KeyboardHotkeys {
 	}
 
 	public static boolean isDown(KeyMapping keyMapping) {
-		var key =
-		//? if <= 1.21.11 {
-		/*KeyBindingHelper.
-		*///? } else
-		 KeyMappingHelper.
-		getBoundKeyOf(keyMapping);
+		var key = KeyMappingHelper.getBoundKeyOf(keyMapping);
 		return InputConstants.isKeyDown(
 			//? if <= 26.2 {
 			/*Minecraft.getInstance().getWindow()
