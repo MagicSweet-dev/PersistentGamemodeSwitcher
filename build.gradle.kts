@@ -49,8 +49,13 @@ project.extensions.getByType<FabricApiExtension>().apply {
     }
 }
 
+tasks.withType<ClientProductionRunTask>().configureEach {
+    rootProject.subprojects.forEach { p ->
+        mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
+    }
+}
+
 tasks.register<ClientProductionRunTask>("clientGameTests") {
-    dependsOn("downloadAssets")
     jvmArgs.add("-Dfabric.client.gametest")
     useXVFB = true
 }
