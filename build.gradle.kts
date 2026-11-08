@@ -38,10 +38,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
 }
 
 project.extensions.getByType<FabricApiExtension>().apply {
@@ -51,11 +47,14 @@ project.extensions.getByType<FabricApiExtension>().apply {
     }
 }
 
-tasks.register<ClientProductionRunTask>("clientGameTests") {
+tasks.register<ClientProductionRunTask>("runHeadlessClientGameTest") {
     rootProject.subprojects.forEach { p ->
         mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
     }
-//    mods.from(productionRuntimeMods)
+    mods.from(
+        tasks.named(if (withObfuscation) "remapGametestJar" else "gametestJar"),
+        "productionRuntimeMods"
+    )
     jvmArgs.add("-Dfabric.client.gametest")
     useXVFB = true
 }

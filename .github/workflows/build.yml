@@ -80,8 +80,16 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
+      - name: Install software rendering
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 \
+            mesa-vulkan-drivers libvulkan1
+
       - name: Run client GameTests
-        run: ./gradlew clientGameTests
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: ./gradlew runHeadlessClientGameTest
 
   release:
     needs: [tag, test]
