@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "persistentgamemodeswitcher-gametest",
+  "version": "1.0.0",
+  "name": "PersistentGamemodeSwitcher (GameTests)",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": [
+      "com.example.docs.ExampleModClientGameTest"
+    ]
+  }
+}

@@ -43,10 +43,14 @@ tasks.test {
 }
 
 project.extensions.getByType<FabricApiExtension>().apply {
-    configureTests()
+    configureTests {
+        createSourceSet = true
+        modId = "persistentgamemodeswitcher-gametest"
+    }
 }
 
 tasks.register<ClientProductionRunTask>("clientGameTests") {
+    dependsOn("downloadAssets")
     jvmArgs.add("-Dfabric.client.gametest")
     useXVFB = true
 }
