@@ -33,8 +33,8 @@ dependencies {
         "mappings"(project.extensions.getByType<LoomGradleExtensionAPI>().officialMojangMappings())
     }
 
+    // stuff for testing
     testImplementation("net.fabricmc:fabric-loader-junit:${loaderVersion}")
-
     productionRuntimeMods("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
 }
 
@@ -57,7 +57,7 @@ tasks.register<ClientProductionRunTask>("clientGameTests") {
     rootProject.subprojects.forEach { p ->
         mustRunAfter(p.tasks.matching { it.name == "downloadAssets" })
     }
-    mods.from("productionRuntimeMods")
+    mods.from(productionRuntimeMods)
     jvmArgs.add("-Dfabric.client.gametest")
     useXVFB = true
 }
