@@ -1,5 +1,7 @@
 package com.magicsweet.fabric.persistentgamemodeswitcher.client.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.KeyboardHotkeys;
 import com.magicsweet.fabric.persistentgamemodeswitcher.client.PersistentGamemodeSwitcherClient;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
@@ -54,16 +56,18 @@ public abstract class GameModeSelectionScreenMixin {
 	 * @author MagicSweet
 	 * @reason Sending a command instead of ServerboundChangeGameModePacket.
 	 */
-	@Redirect(
+	@WrapOperation(
 		method = "switchToHoveredGameMode(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/screens/debug/GameModeSwitcherScreen$GameModeIcon;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;send(Lnet/minecraft/network/protocol/Packet;)V"
 		)
 	)
-	private static void sendCommandInsteadOfPacket(ClientPacketListener instance, Packet<?> packet) {
+	private static void sendCommandInsteadOfPacket(ClientPacketListener instance, Packet<?> packet, Operation<Void> original) {
 		if (packet instanceof ServerboundChangeGameModePacket(GameType mode)) {
 			PersistentGamemodeSwitcherClient.sendCommand("gamemode " + mode.getName());
+		} else {
+			original.call(instance, packet);
 		}
 	}
 
