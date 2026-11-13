@@ -30,21 +30,27 @@ dependencies {
         "mappings"(project.extensions.getByType<LoomGradleExtensionAPI>().officialMojangMappings())
     }
 
-    // stuff for testing
-    testImplementation("net.fabricmc:fabric-loader-junit:${loaderVersion}")
-    "productionRuntimeMods"("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
+    if (sc.current.parsed >= "1.21.6") {
+        // stuff for testing
+        testImplementation("net.fabricmc:fabric-loader-junit:${loaderVersion}")
+        "productionRuntimeMods"("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
+    }
+
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+if (sc.current.parsed >= "1.21.6") {
+    tasks.test {
+        useJUnitPlatform()
+    }
 
-project.extensions.getByType<FabricApiExtension>().apply {
-    configureTests {
-        createSourceSet = true
-        modId = "persistentgamemodeswitcher-gametest"
+    project.extensions.getByType<FabricApiExtension>().apply {
+        configureTests {
+            createSourceSet = true
+            modId = "persistentgamemodeswitcher-gametest"
+        }
     }
 }
+
 
 stonecutter {
     swaps {
