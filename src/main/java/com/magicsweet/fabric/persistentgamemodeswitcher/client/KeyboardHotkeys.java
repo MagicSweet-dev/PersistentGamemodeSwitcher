@@ -65,14 +65,8 @@ public class KeyboardHotkeys {
 	public static boolean isDown(KeyMapping keyMapping) {
 		var key = KeyMappingHelper.getBoundKeyOf(keyMapping);
 		return InputConstants.isKeyDown(
-			//? if <= 26.2 {
-			/*Minecraft.getInstance().getWindow()
-			//? if <= 1.21.6
-			//.getWindow()
-			*///?}
-			//? if <= 26.2 >=1.21.6 {
-			/*,
-			*///?}
+			//$ gui_get_window
+			// nothing
 			key.getValue()
 		);
 	}

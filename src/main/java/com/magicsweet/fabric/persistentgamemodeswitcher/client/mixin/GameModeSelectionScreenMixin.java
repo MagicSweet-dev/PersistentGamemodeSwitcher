@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ServerboundChangeGameModePacket;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +24,8 @@ import net.minecraft.client.input.KeyEvent;
 /*import com.mojang.blaze3d.platform.InputConstants;
 *///?}
 import net.minecraft.client.Minecraft;
+//? if >= 1.21.6
+import net.minecraft.network.protocol.game.ServerboundChangeGameModePacket;
 
 @Mixin(GameModeSwitcherScreen.class)
 public abstract class GameModeSelectionScreenMixin {
@@ -52,6 +53,8 @@ public abstract class GameModeSelectionScreenMixin {
 		return true;
 	}
 
+	// no such packet exists until 1.21.6
+	//? if >= 1.21.6 {
 	/**
 	 * @author MagicSweet
 	 * @reason Sending a command instead of ServerboundChangeGameModePacket.
@@ -70,6 +73,7 @@ public abstract class GameModeSelectionScreenMixin {
 			original.call(instance, packet);
 		}
 	}
+	//?}
 
 	/**
 	 * @author MagicSweet
@@ -92,7 +96,7 @@ public abstract class GameModeSelectionScreenMixin {
 	) {
 		if (!KeyboardHotkeys.gmSwitcherKeybind.isDefault()) {
 			if (
-				//$ gui_get_window
+				//$ gui_check_key
 				event.key() == 292
 			) {
 				cir.setReturnValue(true);
